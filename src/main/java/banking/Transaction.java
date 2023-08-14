@@ -14,20 +14,25 @@ public class Transaction implements TransactionInterface {
      * @throws Exception Account validation failed.
      */
     public Transaction(BankInterface bank, Long accountNumber, int attemptedPin) throws Exception {
-        // TODO: complete the constructor
+        if(bank == null || accountNumber == null){
+            throw new Exception();
+        }
+        this.bank = bank;
+        this.accountNumber = accountNumber;
+        if(!this.bank.authenticateUser(accountNumber, attemptedPin)){
+            throw new Exception();
+        }
     }
 
     public double getBalance() {
-        // TODO: complete the method
-        throw new RuntimeException("TODO");
+        return this.bank.getBalance(this.accountNumber);
     }
 
     public void credit(double amount) {
-        // TODO: complete the method
+        this.bank.credit(this.accountNumber, amount);
     }
 
     public boolean debit(double amount) {
-        // TODO: complete the method
-        throw new RuntimeException("TODO");
+        return this.bank.debit(accountNumber, amount);
     }
 }
